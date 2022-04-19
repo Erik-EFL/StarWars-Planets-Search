@@ -4,22 +4,22 @@ import Context from './Context';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState({});
-  const [filterData, setFilterData] = useState([]);
   const [filterByName, setFilterByName] = useState({});
+  /*   const [filterData, setFilterData] = useState([]);
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
-  const [sort, setSort] = useState({});
+  const [sort, setSort] = useState({}); */
 
   const context = {
     data,
     setData,
-    filterData,
-    setFilterData,
+    /*     filterData,
+    setFilterData, */
     filterByName,
     setFilterByName,
-    filterByNumericValues,
+    /*     filterByNumericValues,
     setFilterByNumericValues,
     sort,
-    setSort,
+    setSort, */
   };
 
   return (

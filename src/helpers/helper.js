@@ -1,4 +1,4 @@
-const planetInfo = [
+export const planetInfo = [
   'Name',
   'Rotation Period',
   'Orbital Period',
@@ -14,4 +14,16 @@ const planetInfo = [
   'URL',
 ];
 
-export default planetInfo;
+export const filterColumn = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
+export const filterComparison = [
+  'maior que',
+  'menor que',
+  'igual a',
+];

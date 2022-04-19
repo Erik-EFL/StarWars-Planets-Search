@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext } from 'react';
 import Context from '../context/Context';
-import planetInfo from '../helpers/helper';
+import { planetInfo } from '../helpers/helper';
 
 function Table() {
   const { data } = useContext(Context);
