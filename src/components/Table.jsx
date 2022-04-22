@@ -1,14 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Context from '../context/Context';
 import { planetInfo } from '../helpers/helper';
 
 function Table() {
-  const { data } = useContext(Context);
+  const { data, filterData, setFilterData,
+  } = useContext(Context);
 
-  if (!data.length) {
-    return null;
-  }
+  useEffect(() => {
+    if (data?.length) {
+      console.log('ordenação', data.sort((a, b) => a.name.localeCompare(b.name)));
+      setFilterData(data);
+    }
+  }, [data]);
+
+  /*   console.log(data);
+  console.log(filterData[0]); */
 
   return (
     <div>
@@ -21,7 +28,8 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((infoPlanet, index) => (
+          {filterData
+          && filterData.map((infoPlanet, index) => (
             <tr key={ index }>
               <td data-testid="planet-name">{infoPlanet.name}</td>
               <td>{infoPlanet.rotation_period}</td>
