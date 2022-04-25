@@ -10,7 +10,7 @@ function Table() {
     if (data?.length) {
       setFilterData(data.sort((a, b) => a.name.localeCompare(b.name)));
     }
-  }, []);
+  }, [data]);
 
   return (
     <div>

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { filterColumn } from '../helpers/helper';
 import Context from './Context';
 
@@ -12,12 +12,12 @@ const Provider = ({ children }) => {
   const [sort, setSort] = useState({});
   const [usedFilters, setUsedFilters] = useState([...filterColumn]);
 
-  useEffect(() => {
+  useMemo(() => {
     setUsedFilters(filterColumn.filter((column) => !filterByNumericValues
       .map((filter) => filter.column).includes(column)));
   }, [filterByNumericValues]);
 
-  useEffect(() => {
+  useMemo(() => {
     filterByNumericValues.forEach(({ column, value, comparison }) => {
       setFilterData([...filterData.filter((result) => {
         const columns = Number(result[column]);
@@ -27,7 +27,7 @@ const Provider = ({ children }) => {
         return true;
       })]);
     });
-  }, [filterByNumericValues, filterData]);
+  }, [filterByNumericValues]);
 
   const handleRemoveFilter = (index) => {
     setFilterByNumericValues(filterByNumericValues

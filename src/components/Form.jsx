@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useContext } from 'react';
 import Context from '../context/Context';
 import { filterComparison } from '../helpers/helper';
 
@@ -10,15 +11,16 @@ function Form() {
     filterByNumericValues, setFilterByNumericValues,
   } = useContext(Context);
 
-  const handleFilterName = ({ target: { value } }) => {
+  const handleFilterName = useCallback(({ target: { value } }) => {
     if (!value) {
       setData(filterByName);
       return;
     }
-    setData(data
-      .filter(({ name }) => name
-        .toLowerCase().includes(value.toLowerCase())));
-  };
+    setData(
+      data.filter(({ name }) => name
+        .toLowerCase().includes(value.toLowerCase())),
+    );
+  }, [filterByName]);
 
   const handleSelectFilter = (event) => {
     event.preventDefault();
@@ -49,6 +51,7 @@ function Form() {
             name="column"
             className="column"
             data-testid="column-filter"
+            onChange={ handleSelectFilter }
           >
             {usedFilters.map((availableFilter) => (
               <option key={ availableFilter }>{availableFilter}</option>
@@ -58,6 +61,7 @@ function Form() {
             name="comparison"
             className="comparison"
             data-testid="comparison-filter"
+            onChange={ handleSelectFilter }
           >
             {
               filterComparison.map(
@@ -76,6 +80,7 @@ function Form() {
             min="0"
             defaultValue="0"
             data-testid="value-filter"
+            onChange={ handleSelectFilter }
           />
           <button
             type="button"
