@@ -51,7 +51,7 @@ function Form() {
             name="column"
             className="column"
             data-testid="column-filter"
-            onChange={ handleSelectFilter }
+
           >
             {usedFilters.map((availableFilter) => (
               <option key={ availableFilter }>{availableFilter}</option>
@@ -61,7 +61,7 @@ function Form() {
             name="comparison"
             className="comparison"
             data-testid="comparison-filter"
-            onChange={ handleSelectFilter }
+
           >
             {
               filterComparison.map(
@@ -80,7 +80,7 @@ function Form() {
             min="0"
             defaultValue="0"
             data-testid="value-filter"
-            onChange={ handleSelectFilter }
+
           />
           <button
             type="button"
