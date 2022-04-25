@@ -1,21 +1,19 @@
+/* eslint-disable no-unused-expressions */
 import React, { useContext } from 'react';
 import Context from '../context/Context';
-import { filterComparison, filterColumn } from '../helpers/helper';
+import { filterComparison } from '../helpers/helper';
 
 function Form() {
   const {
-    data, setData, filterByName, filterByNumericValues, setFilterByNumericValues,
+    usedFilters,
+    data, setData, filterByName,
+    filterByNumericValues, setFilterByNumericValues, handleRemoveFilter,
   } = useContext(Context);
 
-  const handleByFilterName = ({ target }) => {
-    if (!target.value) {
-      setData(filterByName);
-      return;
-    }
-
-    const filteredName = data
-      .filter(({ name }) => name.toLowerCase().includes(target.value.toLowerCase()));
-    setData(filteredName);
+  const handleFilterName = ({ target: { value } }) => {
+    !value ? setData(filterByName)
+      : setData(data.filter(({ name }) => name.toLowerCase()
+        .includes(value.toLowerCase())));
   };
 
   const handleSelectFilter = (event) => {
@@ -39,7 +37,7 @@ function Form() {
             className="search"
             aria-label="search"
             data-testid="name-filter"
-            onChange={ handleByFilterName }
+            onChange={ handleFilterName }
           />
         </fieldset>
         <fieldset>
@@ -48,13 +46,9 @@ function Form() {
             className="column"
             data-testid="column-filter"
           >
-            {
-              filterColumn.map((item, index) => (
-                <option key={ index } value={ item }>
-                  {item}
-                </option>
-              ))
-            }
+            {usedFilters.map((availableFilter) => (
+              <option key={ availableFilter }>{availableFilter}</option>
+            ))}
           </select>
           <select
             name="comparison"
@@ -86,6 +80,29 @@ function Form() {
           >
             Filtrar
           </button>
+          <button
+            type="button"
+            data-testid="button-remove-filters"
+            onClick={ () => setFilterByNumericValues([]) }
+          >
+            Remover todas filtragens
+          </button>
+          {filterByNumericValues
+            && filterByNumericValues.map(
+              (filter, index) => (
+                <div key={ index }>
+                  <p>
+                    {`${filter.column} ${filter.comparison} ${filter.value}`}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={ () => handleRemoveFilter(index) }
+                  >
+                    x
+                  </button>
+                </div>
+              ),
+            )}
         </fieldset>
       </form>
     </div>

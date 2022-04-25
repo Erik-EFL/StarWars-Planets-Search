@@ -4,18 +4,13 @@ import Context from '../context/Context';
 import { planetInfo } from '../helpers/helper';
 
 function Table() {
-  const { data, filterData, setFilterData,
-  } = useContext(Context);
+  const { data, filterData, setFilterData } = useContext(Context);
 
   useEffect(() => {
     if (data?.length) {
-      console.log('ordenação', data.sort((a, b) => a.name.localeCompare(b.name)));
-      setFilterData(data);
+      setFilterData(data.sort((a, b) => a.name.localeCompare(b.name)));
     }
   }, [data]);
-
-  /*   console.log(data);
-  console.log(filterData[0]); */
 
   return (
     <div>

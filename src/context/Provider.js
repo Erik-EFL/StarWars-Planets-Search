@@ -1,34 +1,44 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import { filterColumn } from '../helpers/helper';
 import Context from './Context';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState({});
   const [filterByName, setFilterByName] = useState({});
-  const [filterData, setFilterData] = useState([]);
+  const [filterData, setFilterData] = useState();
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
   const [sort, setSort] = useState({});
+  const [usedFilters, setUsedFilters] = useState([...filterColumn]);
 
   useEffect(() => {
-    const filtro = filterByNumericValues
-      .map(({ column, value, comparison }) => data.filter((result) => {
-        if (comparison === 'maior que') {
-          return Number(result[column]) > +value;
-        }
-        if (comparison === 'menor que') {
-          return Number(result[column]) < +value;
-        }
-        if (comparison === 'igual a') {
-          return result[column] === value;
-        }
-        return true;
-      }));
-    console.log('provider', [...filtro]);
-    setFilterData([...filtro][0]);
+    setUsedFilters(filterColumn.filter((column) => !filterByNumericValues
+      .map((filter) => filter.column).includes(column)));
   }, [filterByNumericValues]);
 
+  useEffect(() => {
+    filterByNumericValues.forEach(({ column, value, comparison }) => {
+      setFilterData([...filterData.filter((result) => {
+        const columns = Number(result[column]);
+        if (comparison === 'maior que') return columns > +value;
+        if (comparison === 'menor que') return columns < +value;
+        if (comparison === 'igual a') return columns === +value;
+        return true;
+      })]);
+    });
+  }, [filterByNumericValues]);
+
+  const handleRemoveFilter = (index) => {
+    setFilterByNumericValues(filterByNumericValues
+      .filter((_filter, item) => item !== index));
+  };
+
+  console.log('Filtrado', filterData);
+  console.log('Filtros', filterByNumericValues);
+
   const context = {
+    handleRemoveFilter,
     data,
     setData,
     filterData,
@@ -39,6 +49,7 @@ const Provider = ({ children }) => {
     setFilterByNumericValues,
     sort,
     setSort,
+    usedFilters,
   };
 
   return (
