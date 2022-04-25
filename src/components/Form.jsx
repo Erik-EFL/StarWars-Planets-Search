@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import React, { useContext } from 'react';
 import Context from '../context/Context';
 import { filterComparison } from '../helpers/helper';
@@ -7,14 +6,18 @@ function Form() {
   const {
     usedFilters,
     data, setData, filterByName,
-    handleRemoveAllFilters, handleRemoveFilter,
+    setFilterData, handleRemoveFilter,
     filterByNumericValues, setFilterByNumericValues,
   } = useContext(Context);
 
   const handleFilterName = ({ target: { value } }) => {
-    !value ? setData(filterByName)
-      : setData(data.filter(({ name }) => name.toLowerCase()
-        .includes(value.toLowerCase())));
+    if (!value) {
+      setData(filterByName);
+      return;
+    }
+    setData(data
+      .filter(({ name }) => name
+        .toLowerCase().includes(value.toLowerCase())));
   };
 
   const handleSelectFilter = (event) => {
@@ -84,7 +87,10 @@ function Form() {
           <button
             type="button"
             data-testid="button-remove-filters"
-            onClick={ handleRemoveAllFilters }
+            onClick={ () => {
+              setFilterByNumericValues([]);
+              setFilterData(filterByName);
+            } }
           >
             Remover todas filtragens
           </button>

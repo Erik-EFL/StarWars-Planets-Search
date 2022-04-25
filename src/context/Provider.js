@@ -27,12 +27,7 @@ const Provider = ({ children }) => {
         return true;
       })]);
     });
-  }, [filterByNumericValues]);
-
-  const handleRemoveAllFilters = () => {
-    setFilterByNumericValues([]);
-    setFilterData(filterByName);
-  };
+  }, [filterByNumericValues, filterData]);
 
   const handleRemoveFilter = (index) => {
     setFilterByNumericValues(filterByNumericValues
@@ -41,7 +36,6 @@ const Provider = ({ children }) => {
   };
 
   const context = {
-    handleRemoveAllFilters,
     handleRemoveFilter,
     data,
     setData,
