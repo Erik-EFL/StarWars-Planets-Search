@@ -29,15 +29,19 @@ const Provider = ({ children }) => {
     });
   }, [filterByNumericValues]);
 
+  const handleRemoveAllFilters = () => {
+    setFilterByNumericValues([]);
+    setFilterData(filterByName);
+  };
+
   const handleRemoveFilter = (index) => {
     setFilterByNumericValues(filterByNumericValues
       .filter((_filter, item) => item !== index));
+    setFilterData(filterByName);
   };
 
-  console.log('Filtrado', filterData);
-  console.log('Filtros', filterByNumericValues);
-
   const context = {
+    handleRemoveAllFilters,
     handleRemoveFilter,
     data,
     setData,

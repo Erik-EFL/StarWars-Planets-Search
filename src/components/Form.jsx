@@ -7,7 +7,8 @@ function Form() {
   const {
     usedFilters,
     data, setData, filterByName,
-    filterByNumericValues, setFilterByNumericValues, handleRemoveFilter,
+    handleRemoveAllFilters, handleRemoveFilter,
+    filterByNumericValues, setFilterByNumericValues,
   } = useContext(Context);
 
   const handleFilterName = ({ target: { value } }) => {
@@ -83,14 +84,14 @@ function Form() {
           <button
             type="button"
             data-testid="button-remove-filters"
-            onClick={ () => setFilterByNumericValues([]) }
+            onClick={ handleRemoveAllFilters }
           >
             Remover todas filtragens
           </button>
           {filterByNumericValues
             && filterByNumericValues.map(
               (filter, index) => (
-                <div key={ index }>
+                <div key={ index } data-testid="filter">
                   <p>
                     {`${filter.column} ${filter.comparison} ${filter.value}`}
                   </p>
